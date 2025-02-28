@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Novo Artigo</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="title" class="form-label">Título</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="category" class="form-label">Categoria</label>
+            <input type="text" class="form-control" id="category" name="category">
+        </div>
+        
+        <div class="mb-3">
+            <label for="tags" class="form-label">Tags (separadas por vírgula)</label>
+            <input type="text" class="form-control" id="tags" name="tags" placeholder="python, flask, tutorial">
+        </div>
+        
+        <div class="mb-3">
+            <label for="content" class="form-label">Conteúdo</label>
+            <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %} 
