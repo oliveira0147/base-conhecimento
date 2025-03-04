@@ -1,31 +1,78 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <h2 class="mb-4">Novo Artigo</h2>
-    <form method="POST">
-        <div class="mb-3">
-            <label for="title" class="form-label">Título</label>
-            <input type="text" class="form-control" id="title" name="title" required>
-        </div>
-        
-        <div class="mb-3">
-            <label for="category" class="form-label">Categoria</label>
-            <input type="text" class="form-control" id="category" name="category">
-        </div>
-        
-        <div class="mb-3">
-            <label for="content" class="form-label">Conteúdo</label>
-            <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
-        </div>
-        
-        <div class="mb-3">
-            <label for="tags" class="form-label">Tags</label>
-            <input type="text" class="form-control" id="tags" name="tags">
-        </div>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title mb-4">
+                        {% if article %}
+                            Editar Artigo
+                        {% else %}
+                            Novo Artigo
+                        {% endif %}
+                    </h2>
 
-        <button type="submit" class="btn btn-primary">Salvar</button>
-        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Cancelar</a>
-    </form>
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="title" name="title" 
+                                value="{{ article.title if article else '' }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category_id" class="form-label">Categoria</label>
+                            <select class="form-select" id="category_id" name="category_id">
+                                <option value="">Selecione uma categoria</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.id }}"
+                                        {% if article and article.category_id == category.id %}selected{% endif %}>
+                                        {{ category.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tag_ids" class="form-label">Tags</label>
+                            <select class="form-select" id="tag_ids" name="tag_ids" multiple>
+                                {% for tag in tags %}
+                                    <option value="{{ tag.id }}"
+                                        {% if article and tag in article.tags %}selected{% endif %}>
+                                        {{ tag.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <small class="text-muted">
+                                Pressione Ctrl (ou Cmd no Mac) para selecionar múltiplas tags
+                            </small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Conteúdo</label>
+                            <textarea class="form-control" id="content" name="content" 
+                                rows="10" required>{{ article.content if article else '' }}</textarea>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            {% if article %}
+                                <a href="{{ url_for('main.view_article', id=article.id) }}" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left"></i> Voltar
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('main.index') }}" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left"></i> Voltar
+                                </a>
+                            {% endif %}
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg"></i> Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %} 

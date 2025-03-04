@@ -1,40 +1,41 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_migrate import Migrate
 from config import Config
-import jinja2
+from markupsafe import Markup
 
 db = SQLAlchemy()
-migrate = Migrate()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
-login_manager.login_message = 'Por favor, faça login para acessar esta página.'
 
-@login_manager.user_loader
-def load_user(id):
-    from app.models import User
-    return User.query.get(int(id))
+def nl2br(value):
+    if value:
+        return Markup(value.replace('\n', '<br>\n'))
+    return ''
 
-def create_app():
+def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
 
     db.init_app(app)
-    migrate.init_app(app, db)
     login_manager.init_app(app)
 
-    # Adiciona o filtro nl2br
-    @app.template_filter('nl2br')
-    def nl2br_filter(s):
-        if not s:
-            return s
-        return jinja2.utils.markupsafe.Markup(s.replace('\n', '<br>'))
+    # Registrar o filtro nl2br
+    app.jinja_env.filters['nl2br'] = nl2br
 
+    # Registrar blueprints
+    from app.auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
+
+    # Importar e registrar o blueprint principal
     from app.routes import main
-    from app.auth import auth
-    
     app.register_blueprint(main)
-    app.register_blueprint(auth)
 
-    return app 
+    @login_manager.user_loader
+    def load_user(id):
+        from app.models import User
+        return User.query.get(int(id))
+
+    return app
+
+from app import models 
