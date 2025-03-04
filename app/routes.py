@@ -33,4 +33,26 @@ def new_article():
 @main.route('/article/<int:id>')
 def view_article(id):
     article = Article.query.get_or_404(id)
-    return render_template('article.html', article=article) 
+    return render_template('article.html', article=article)
+
+@main.route('/article/<int:id>/edit', methods=['GET', 'POST'])
+def edit_article(id):
+    article = Article.query.get_or_404(id)
+    
+    if request.method == 'POST':
+        article.title = request.form['title']
+        article.content = request.form['content']
+        article.category = request.form['category']
+        article.tags = request.form['tags']
+        
+        db.session.commit()
+        return redirect(url_for('main.view_article', id=article.id))
+    
+    return render_template('article_edit.html', article=article)
+
+@main.route('/article/<int:id>/delete', methods=['POST'])
+def delete_article(id):
+    article = Article.query.get_or_404(id)
+    db.session.delete(article)
+    db.session.commit()
+    return redirect(url_for('main.index')) 
