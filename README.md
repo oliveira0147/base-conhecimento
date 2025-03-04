@@ -50,6 +50,23 @@ Sistema de gerenciamento de conhecimento desenvolvido com Python e Flask, permit
 
 ## 📝 Changelog
 
+### v0.1.2 (04/03/2025)
+- Adicionada funcionalidade de edição de artigos
+- Adicionada funcionalidade de exclusão de artigos
+- Implementado modal de confirmação para exclusão
+- Interface completamente redesenhada
+- Adicionado sistema de cards com animações
+- Implementado layout responsivo
+- Melhorado sistema de navegação
+- Adicionados ícones em toda interface
+- Melhorada organização do conteúdo
+- Adicionada barra de busca centralizada
+- Implementado feedback visual para ações
+
+### v0.1.1 (28/02/2025)
+- Adicionada visualização detalhada de artigos
+- Interface melhorada para exibição de artigos individuais
+
 ### v0.1.0 (28/02/2025)
 - Implementação inicial do projeto
 - CRUD básico de artigos
