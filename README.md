@@ -26,14 +26,21 @@ Sistema de gerenciamento de conhecimento desenvolvido com Python e Flask, permit
 ## 🚀 Funcionalidades Atuais
 
 - [x] Criação de artigos
-- [x] Listagem de artigos
+- [x] Listagem de artigos com cards interativos
+- [x] Visualização detalhada de artigos
+- [x] Edição de artigos
+- [x] Exclusão de artigos com confirmação
 - [x] Busca por título e conteúdo
 - [x] Categorização de conteúdo
 - [x] Sistema de tags
+- [x] Interface responsiva
+- [x] Sistema de autenticação de usuários
+- [x] Proteção de rotas por login
+- [x] Associação de artigos com autores
 
 ## 📋 Próximas Atualizações Planejadas
 
-- [ ] Sistema de autenticação de usuários
+- [x] Sistema de autenticação de usuários
 - [ ] Editor rich text para artigos
 - [ ] Sistema de comentários
 - [ ] Upload de imagens
@@ -49,6 +56,17 @@ Sistema de gerenciamento de conhecimento desenvolvido com Python e Flask, permit
 5. Abra um Pull Request
 
 ## 📝 Changelog
+
+### v0.3.0 (04/03/2025)
+- Implementado sistema de autenticação de usuários
+- Adicionado relacionamento entre usuários e artigos
+- Proteção de rotas por login
+- Adicionado menu de usuário na navegação
+
+### v0.2.0 (04/03/2025)
+- Interface completamente redesenhada
+- Adicionado sistema de cards com animações
+- Implementado layout responsivo
 
 ### v0.1.2 (04/03/2025)
 - Adicionada funcionalidade de edição de artigos
