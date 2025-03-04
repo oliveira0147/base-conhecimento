@@ -15,15 +15,15 @@
         </div>
         
         <div class="mb-3">
-            <label for="tags" class="form-label">Tags (separadas por vírgula)</label>
-            <input type="text" class="form-control" id="tags" name="tags" placeholder="python, flask, tutorial">
-        </div>
-        
-        <div class="mb-3">
             <label for="content" class="form-label">Conteúdo</label>
             <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
         </div>
         
+        <div class="mb-3">
+            <label for="tags" class="form-label">Tags</label>
+            <input type="text" class="form-control" id="tags" name="tags">
+        </div>
+
         <button type="submit" class="btn btn-primary">Salvar</button>
         <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>

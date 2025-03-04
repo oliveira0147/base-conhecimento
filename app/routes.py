@@ -19,20 +19,36 @@ def index():
 @main.route('/article/new', methods=['GET', 'POST'])
 def new_article():
     if request.method == 'POST':
+        content = request.form['content'].strip()
+        print("DEBUG - Novo Artigo:")
+        print(f"Título: {request.form['title']}")
+        print(f"Conteúdo recebido: {content}")
+        
         article = Article(
             title=request.form['title'],
-            content=request.form['content'],
+            content=content,
             category=request.form['category'],
             tags=request.form['tags']
         )
+        
         db.session.add(article)
         db.session.commit()
+        
+        # Verificar se foi salvo corretamente
+        saved_article = Article.query.get(article.id)
+        print(f"Conteúdo salvo no banco: {saved_article.content}")
+        
         return redirect(url_for('main.index'))
     return render_template('article_form.html')
 
 @main.route('/article/<int:id>')
 def view_article(id):
     article = Article.query.get_or_404(id)
+    print("DEBUG - Dados do Artigo:")
+    print(f"ID: {article.id}")
+    print(f"Título: {article.title}")
+    print(f"Categoria: {article.category}")
+    print(f"Conteúdo: {article.content}")
     return render_template('article.html', article=article)
 
 @main.route('/article/<int:id>/edit', methods=['GET', 'POST'])
