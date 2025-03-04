@@ -1,6 +1,6 @@
 # Base de Conhecimento
 
-Sistema de gerenciamento de conhecimento desenvolvido com Python e Flask, permitindo o registro e consulta de tutoriais, soluções de problemas e documentações.
+Sistema de gerenciamento de conhecimento desenvolvido com Python e Flask, permitindo o registro e consulta de tutoriais, soluções e documentações.
 
 ## 🛠 Tecnologias Utilizadas
 
@@ -23,6 +23,7 @@ Sistema de gerenciamento de conhecimento desenvolvido com Python e Flask, permit
 │
 ├── config.py
 └── run.py
+
 ## 🚀 Funcionalidades Atuais
 
 - [x] Criação de artigos
@@ -37,15 +38,28 @@ Sistema de gerenciamento de conhecimento desenvolvido com Python e Flask, permit
 - [x] Sistema de autenticação de usuários
 - [x] Proteção de rotas por login
 - [x] Associação de artigos com autores
+- [x] Menu dropdown unificado
+- [x] Gerenciamento de usuários
+- [x] Gerenciamento de categorias
+- [x] Gerenciamento de tags
+- [x] Interface melhorada com animações
+- [x] Cards com efeitos hover
+- [x] Sistema de busca aprimorado
+- [x] Layout responsivo otimizado
+- [x] Feedback visual para ações
+- [x] Sistema de roles (admin/usuário)
 
 ## 📋 Próximas Atualizações Planejadas
 
-- [x] Sistema de autenticação de usuários
 - [ ] Editor rich text para artigos
 - [ ] Sistema de comentários
 - [ ] Upload de imagens
 - [ ] Exportação de artigos em PDF
 - [ ] Sistema de versões dos artigos
+- [ ] Sistema de favoritos
+- [ ] Preview de markdown
+- [ ] Estatísticas de visualização
+- [ ] Sistema de busca com filtros avançados
 
 ## 🤝 Como Contribuir
 
@@ -56,6 +70,16 @@ Sistema de gerenciamento de conhecimento desenvolvido com Python e Flask, permit
 5. Abra um Pull Request
 
 ## 📝 Changelog
+
+### v0.4.0 (04/03/2025)
+- Removido debug information dos templates
+- Atualizado layout do navbar com dropdown unificado
+- Melhorado design da interface com novas cores e tipografia
+- Adicionado animações e feedback visual
+- Implementado sistema de busca aprimorado
+- Otimizado visual dos cards e elementos da interface
+- Adicionado gerenciamento de tags e categorias
+- Implementado sistema de roles
 
 ### v0.3.0 (04/03/2025)
 - Implementado sistema de autenticação de usuários
