@@ -15,44 +15,51 @@
                     </h2>
 
                     <form method="POST">
+                        {{ form.hidden_tag() }}
                         <div class="mb-3">
-                            <label for="title" class="form-label">Título</label>
-                            <input type="text" class="form-control" id="title" name="title" 
-                                value="{{ article.title if article else '' }}" required>
+                            {{ form.title.label(class="form-label") }}
+                            {{ form.title(class="form-control") }}
                         </div>
 
                         <div class="mb-3">
-                            <label for="category_id" class="form-label">Categoria</label>
-                            <select class="form-select" id="category_id" name="category_id">
-                                <option value="">Selecione uma categoria</option>
-                                {% for category in categories %}
-                                    <option value="{{ category.id }}"
-                                        {% if article and article.category_id == category.id %}selected{% endif %}>
-                                        {{ category.name }}
-                                    </option>
-                                {% endfor %}
-                            </select>
+                            {{ form.category_id.label(class="form-label") }}
+                            {{ form.category_id(class="form-select") }}
                         </div>
 
                         <div class="mb-3">
-                            <label for="tag_ids" class="form-label">Tags</label>
-                            <select class="form-select" id="tag_ids" name="tag_ids" multiple>
-                                {% for tag in tags %}
-                                    <option value="{{ tag.id }}"
-                                        {% if article and tag in article.tags %}selected{% endif %}>
-                                        {{ tag.name }}
-                                    </option>
-                                {% endfor %}
-                            </select>
+                            {{ form.tag_ids.label(class="form-label") }}
+                            {{ form.tag_ids(class="form-select") }}
                             <small class="text-muted">
                                 Pressione Ctrl (ou Cmd no Mac) para selecionar múltiplas tags
                             </small>
                         </div>
 
                         <div class="mb-3">
-                            <label for="content" class="form-label">Conteúdo</label>
-                            <textarea class="form-control" id="content" name="content" 
-                                rows="10" required>{{ article.content if article else '' }}</textarea>
+                            {{ form.content.label(class="form-label") }}
+                            <div class="editor-toolbar">
+                                <button type="button" onclick="formatText('bold')" class="btn btn-sm btn-light">
+                                    <i class="bi bi-type-bold"></i>
+                                </button>
+                                <button type="button" onclick="formatText('italic')" class="btn btn-sm btn-light">
+                                    <i class="bi bi-type-italic"></i>
+                                </button>
+                                <button type="button" onclick="formatText('underline')" class="btn btn-sm btn-light">
+                                    <i class="bi bi-type-underline"></i>
+                                </button>
+                                <button type="button" onclick="formatList('ordered')" class="btn btn-sm btn-light">
+                                    <i class="bi bi-list-ol"></i>
+                                </button>
+                                <button type="button" onclick="formatList('unordered')" class="btn btn-sm btn-light">
+                                    <i class="bi bi-list-ul"></i>
+                                </button>
+                                <button type="button" onclick="formatText('h2')" class="btn btn-sm btn-light">H2</button>
+                                <button type="button" onclick="formatText('h3')" class="btn btn-sm btn-light">H3</button>
+                                <button type="button" onclick="insertLink()" class="btn btn-sm btn-light">
+                                    <i class="bi bi-link"></i>
+                                </button>
+                            </div>
+                            <div id="editor" class="form-control" contenteditable="true" style="min-height: 300px; overflow-y: auto;"></div>
+                            {{ form.content(style="display: none;") }}
                         </div>
 
                         <div class="d-flex gap-2">
@@ -65,9 +72,7 @@
                                     <i class="bi bi-arrow-left"></i> Voltar
                                 </a>
                             {% endif %}
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-check-lg"></i> Salvar
-                            </button>
+                            {{ form.submit(class="btn btn-primary", onclick="updateContent()") }}
                         </div>
                     </form>
                 </div>
@@ -75,4 +80,81 @@
         </div>
     </div>
 </div>
+
+<style>
+.editor-toolbar {
+    padding: 10px;
+    background: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+}
+
+.editor-toolbar button {
+    margin-right: 5px;
+}
+
+#editor {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: 15px;
+}
+
+#editor:focus {
+    outline: none;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializa o editor com o conteúdo existente
+    const contentField = document.querySelector('#content');
+    const editor = document.querySelector('#editor');
+    editor.innerHTML = contentField.value;
+    
+    // Adiciona handler para atualizar o campo hidden quando o conteúdo muda
+    editor.addEventListener('input', function() {
+        contentField.value = editor.innerHTML;
+    });
+});
+
+function formatText(command) {
+    if (command === 'h2' || command === 'h3') {
+        document.execCommand('formatBlock', false, command);
+    } else {
+        document.execCommand(command, false, null);
+    }
+}
+
+function formatList(type) {
+    if (type === 'ordered') {
+        document.execCommand('insertOrderedList', false, null);
+    } else {
+        document.execCommand('insertUnorderedList', false, null);
+    }
+}
+
+function insertLink() {
+    const url = prompt('Digite a URL do link:');
+    if (url) {
+        document.execCommand('createLink', false, url);
+    }
+}
+
+function updateContent() {
+    const editor = document.querySelector('#editor');
+    const contentField = document.querySelector('#content');
+    contentField.value = editor.innerHTML;
+}
+
+// Previne que o Enter crie divs ao invés de parágrafos
+document.querySelector('#editor').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        document.execCommand('insertParagraph', false);
+    }
+});
+</script>
 {% endblock %} 

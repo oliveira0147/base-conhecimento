@@ -3,6 +3,7 @@ from app.models import Article, User, Role, Permission, Category, Tag
 from app import db
 from flask_login import login_required, current_user
 from functools import wraps
+from app.forms import TagForm, ArticleForm
 
 main = Blueprint('main', __name__)
 
@@ -34,26 +35,20 @@ def index():
 @main.route('/article/new', methods=['GET', 'POST'])
 @login_required
 def new_article():
-    # Buscar todas as categorias e tags do banco de dados
-    categories = Category.query.order_by(Category.name).all()
-    tags = Tag.query.order_by(Tag.name).all()
+    # Criar uma instância do formulário
+    form = ArticleForm()
     
-    if request.method == 'POST':
+    if form.validate_on_submit():
         article = Article(
-            title=request.form['title'],
-            content=request.form['content'],
-            user_id=current_user.id
+            title=form.title.data,
+            content=form.content.data,
+            user_id=current_user.id,
+            category_id=form.category_id.data if form.category_id.data != 0 else None
         )
         
-        # Adiciona categoria
-        category_id = request.form.get('category_id')
-        if category_id:
-            article.category_id = int(category_id)
-            
         # Adiciona tags
-        tag_ids = request.form.getlist('tag_ids')
-        if tag_ids:
-            selected_tags = Tag.query.filter(Tag.id.in_(tag_ids)).all()
+        if form.tag_ids.data:
+            selected_tags = Tag.query.filter(Tag.id.in_(form.tag_ids.data)).all()
             article.tags = selected_tags
             
         db.session.add(article)
@@ -61,7 +56,8 @@ def new_article():
         flash('Artigo criado com sucesso!', 'success')
         return redirect(url_for('main.index'))
     
-    return render_template('article_form.html', categories=categories, tags=tags)
+    # Passar o formulário para o template
+    return render_template('article_form.html', form=form)
 
 @main.route('/article/<int:id>')
 def view_article(id):
@@ -305,29 +301,32 @@ def manage_tags():
 @login_required
 @admin_required
 def new_tag():
-    if request.method == 'POST':
+    form = TagForm()
+    if form.validate_on_submit():
         tag = Tag(
-            name=request.form['name'],
-            description=request.form['description']
+            name=form.name.data,
+            description=form.description.data
         )
         db.session.add(tag)
         db.session.commit()
         flash('Tag criada com sucesso!', 'success')
         return redirect(url_for('main.manage_tags'))
-    return render_template('admin/tag_form.html')
+    return render_template('admin/tag_form.html', form=form)
 
 @main.route('/admin/tags/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def edit_tag(id):
     tag = Tag.query.get_or_404(id)
-    if request.method == 'POST':
-        tag.name = request.form['name']
-        tag.description = request.form['description']
+    form = TagForm(obj=tag)
+    
+    if form.validate_on_submit():
+        tag.name = form.name.data
+        tag.description = form.description.data
         db.session.commit()
         flash('Tag atualizada com sucesso!', 'success')
         return redirect(url_for('main.manage_tags'))
-    return render_template('admin/tag_form.html', tag=tag)
+    return render_template('admin/tag_form.html', form=form, tag=tag)
 
 @main.route('/admin/tags/<int:id>/delete', methods=['POST'])
 @login_required
