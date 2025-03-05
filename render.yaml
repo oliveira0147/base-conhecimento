@@ -2,9 +2,7 @@ services:
   - type: web
     name: base-conhecimento
     env: python
-    buildCommand: |
-      pip install -r requirements.txt
-      mkdir -p instance
+    buildCommand: pip install -r requirements.txt
     startCommand: gunicorn wsgi:app
     envVars:
       - key: FLASK_APP
@@ -13,5 +11,5 @@ services:
         value: production
       - key: SECRET_KEY
         generateValue: true
-      - key: DATABASE_URL
-        value: sqlite:///instance/app.db 
+    databases:
+      - name: base_conhecimento_db 
