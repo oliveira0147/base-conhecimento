@@ -154,3 +154,25 @@ Sistema de gerenciamento de conhecimento desenvolvido com Python e Flask, permit
 - CRUD básico de artigos
 - Sistema de busca simples
 - Interface básica com Bootstrap
+
+## 🚀 Deploy
+
+### Deploy no Render
+
+1. Crie uma conta no [Render](https://render.com)
+2. Conecte seu repositório GitHub
+3. Clique em "New Web Service"
+4. Selecione seu repositório
+5. Configure:
+   - Name: base-conhecimento (ou outro nome)
+   - Environment: Python
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `gunicorn run:app`
+6. Clique em "Create Web Service"
+
+### Variáveis de Ambiente
+Configure as seguintes variáveis no Render:
+- `FLASK_APP=run.py`
+- `FLASK_ENV=production`
+- `SECRET_KEY` (será gerado automaticamente)
+- `DATABASE_URL` (será fornecido pelo Render se usar PostgreSQL)

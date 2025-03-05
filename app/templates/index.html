@@ -68,7 +68,11 @@
                         </div>
                         
                         <p class="card-text">
-                            {{ article.content[:200] + '...' if article.content|length > 200 else article.content }}
+                            {% if article.content|length > 200 %}
+                                {{ article.content[:200]|safe }}...
+                            {% else %}
+                                {{ article.content|safe }}
+                            {% endif %}
                         </p>
                         
                         <div class="d-flex gap-2 mt-3">
