@@ -9,20 +9,32 @@ Sistema de gerenciamento de conhecimento desenvolvido com Python e Flask, permit
 - SQLAlchemy
 - SQLite
 - Bootstrap 5
+- Bootstrap Icons
+- Editor Rich Text personalizado
 
 ## 📁 Estrutura do Projeto
 ├── app/
 │ ├── init.py
 │ ├── models.py
 │ ├── routes.py
+│ ├── auth/
+│ │ └── routes.py
+│ ├── static/
+│ │ └── css/
+│ │     └── style.css
 │ └── templates/
-│ ├── base.html
-│ ├── index.html
-│ ├── article.html
-│ └── article_form.html
-│
-├── config.py
-└── run.py
+│   ├── admin/
+│   │ ├── categories.html
+│   │ ├── roles.html
+│   │ ├── tags.html
+│   │ └── users.html
+│   ├── auth/
+│   │ ├── login.html
+│   │ └── register.html
+│   ├── base.html
+│   ├── index.html
+│   ├── article.html
+│   └── article_form.html
 
 ## 🚀 Funcionalidades Atuais
 
@@ -48,10 +60,17 @@ Sistema de gerenciamento de conhecimento desenvolvido com Python e Flask, permit
 - [x] Layout responsivo otimizado
 - [x] Feedback visual para ações
 - [x] Sistema de roles (admin/usuário)
+- [x] Editor rich text personalizado
+- [x] Sistema de permissões
+- [x] Breadcrumbs para navegação
+- [x] Modais de confirmação
+- [x] Multi-seleção de tags
+- [x] Comandos CLI para gerenciamento
+- [x] Proteção CSRF
+- [x] Filtros Jinja personalizados
 
 ## 📋 Próximas Atualizações Planejadas
 
-- [ ] Editor rich text para artigos
 - [ ] Sistema de comentários
 - [ ] Upload de imagens
 - [ ] Exportação de artigos em PDF
@@ -60,6 +79,10 @@ Sistema de gerenciamento de conhecimento desenvolvido com Python e Flask, permit
 - [ ] Preview de markdown
 - [ ] Estatísticas de visualização
 - [ ] Sistema de busca com filtros avançados
+- [ ] Editor com suporte a imagens
+- [ ] Sistema de notificações
+- [ ] Histórico de edições
+- [ ] Tags coloridas personalizáveis
 
 ## 🤝 Como Contribuir
 
@@ -70,6 +93,23 @@ Sistema de gerenciamento de conhecimento desenvolvido com Python e Flask, permit
 5. Abra um Pull Request
 
 ## 📝 Changelog
+
+### v0.6.0 (05/03/2025)
+- Implementado editor rich text personalizado
+- Adicionado sistema de permissões
+- Melhorado sistema de roles
+- Adicionado comandos CLI para gerenciamento
+- Implementado proteção CSRF
+- Adicionado filtros Jinja personalizados
+- Melhorada estrutura de arquivos do projeto
+- Implementado breadcrumbs para navegação
+- Adicionado suporte a multi-seleção de tags
+
+### v0.5.0 (05/03/2025)
+- Removido TinyMCE em favor do editor personalizado
+- Melhorada visualização de artigos com suporte a HTML
+- Adicionada barra de ferramentas de formatação
+- Suporte a diferentes estilos de texto e listas
 
 ### v0.4.0 (04/03/2025)
 - Removido debug information dos templates
