@@ -2,14 +2,16 @@ services:
   - type: web
     name: base-conhecimento
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn run:app
+    buildCommand: |
+      pip install -r requirements.txt
+      mkdir -p instance
+    startCommand: gunicorn wsgi:app
     envVars:
       - key: FLASK_APP
-        value: run.py
+        value: wsgi.py
       - key: FLASK_ENV
         value: production
       - key: SECRET_KEY
         generateValue: true
       - key: DATABASE_URL
-        value: sqlite:///app.db 
+        value: sqlite:///instance/app.db 

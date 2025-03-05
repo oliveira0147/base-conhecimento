@@ -4,6 +4,7 @@ from flask_login import LoginManager
 from config import Config
 from markupsafe import Markup
 from flask_wtf import CSRFProtect
+import os
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -16,8 +17,14 @@ def nl2br(value):
     return ''
 
 def create_app(config_class=Config):
-    app = Flask(__name__)
+    app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config_class)
+
+    # Garantir que o diretório instance existe
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
 
     # Corrige URL do PostgreSQL se necessário
     if app.config['SQLALCHEMY_DATABASE_URI'].startswith('postgres://'):
